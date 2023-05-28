@@ -67,7 +67,8 @@ const TeamForm: React.FC = () => {
   };
 
   return (
-    user && (
+    <div>
+      user && (
       <div>
         <h2>Create Team</h2>
         <button onClick={openModal}>Create Team</button>
@@ -112,7 +113,8 @@ const TeamForm: React.FC = () => {
         </Modal>
         <TeamList />
       </div>
-    )
+      )
+    </div>
   );
 };
 
