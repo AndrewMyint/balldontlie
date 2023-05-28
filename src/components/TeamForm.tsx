@@ -67,54 +67,54 @@ const TeamForm: React.FC = () => {
   };
 
   return (
-    <div>
-      user && (
-      <div>
-        <h2>Create Team</h2>
-        <button onClick={openModal}>Create Team</button>
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <Formik
-            initialValues={initialValues}
-            validate={validate}
-            onSubmit={handleSubmit}
-          >
-            <Form style={{ padding: "20px", margin: "20px" }}>
-              <div style={{ margin: "10px 0" }}>
-                <label htmlFor="name">Team Name</label>
-                <Field type="text" id="name" name="name" />
-                <div style={{ color: "red" }}>
-                  <ErrorMessage name="name" component="div" />
+    <>
+      {user && (
+        <div>
+          <h2>Create Team</h2>
+          <button onClick={openModal}>Create Team</button>
+          <Modal isOpen={isModalOpen} onClose={closeModal}>
+            <Formik
+              initialValues={initialValues}
+              validate={validate}
+              onSubmit={handleSubmit}
+            >
+              <Form style={{ padding: "20px", margin: "20px" }}>
+                <div style={{ margin: "10px 0" }}>
+                  <label htmlFor="name">Team Name</label>
+                  <Field type="text" id="name" name="name" />
+                  <div style={{ color: "red" }}>
+                    <ErrorMessage name="name" component="div" />
+                  </div>
                 </div>
-              </div>
-              <div style={{ margin: "10px 0" }}>
-                <label htmlFor="playerCount">Player Count</label>
-                <Field type="text" id="playerCount" name="playerCount" />
-                <div style={{ color: "red" }}>
-                  <ErrorMessage name="playerCount" component="div" />
+                <div style={{ margin: "10px 0" }}>
+                  <label htmlFor="playerCount">Player Count</label>
+                  <Field type="text" id="playerCount" name="playerCount" />
+                  <div style={{ color: "red" }}>
+                    <ErrorMessage name="playerCount" component="div" />
+                  </div>
                 </div>
-              </div>
-              <div style={{ margin: "10px 0" }}>
-                <label htmlFor="region">Region</label>
-                <Field type="text" id="region" name="region" />
-                <div style={{ color: "red" }}>
-                  <ErrorMessage name="region" component="div" />
+                <div style={{ margin: "10px 0" }}>
+                  <label htmlFor="region">Region</label>
+                  <Field type="text" id="region" name="region" />
+                  <div style={{ color: "red" }}>
+                    <ErrorMessage name="region" component="div" />
+                  </div>
                 </div>
-              </div>
-              <div style={{ margin: "10px 0" }}>
-                <label htmlFor="country">Country</label>
-                <Field type="text" id="country" name="country" />
-                <div style={{ color: "red" }}>
-                  <ErrorMessage name="country" component="div" />
+                <div style={{ margin: "10px 0" }}>
+                  <label htmlFor="country">Country</label>
+                  <Field type="text" id="country" name="country" />
+                  <div style={{ color: "red" }}>
+                    <ErrorMessage name="country" component="div" />
+                  </div>
                 </div>
-              </div>
-              <button type="submit">Create</button>
-            </Form>
-          </Formik>
-        </Modal>
-        <TeamList />
-      </div>
-      )
-    </div>
+                <button type="submit">Create</button>
+              </Form>
+            </Formik>
+          </Modal>
+          <TeamList />
+        </div>
+      )}
+    </>
   );
 };
 

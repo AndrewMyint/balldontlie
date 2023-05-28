@@ -54,6 +54,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     setUser(null);
+    setTeams([]);
     localStorage.removeItem("user");
     localStorage.removeItem("teams");
   };
