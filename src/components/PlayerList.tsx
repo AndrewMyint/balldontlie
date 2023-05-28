@@ -1,7 +1,14 @@
+"use client";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import styles from "@/styles/PlayerList.module.css";
 import { useAuth } from "@/context/AuthContext";
+
+const style = {
+  height: 30,
+  border: "1px solid green",
+  margin: 6,
+  padding: 8,
+};
 
 const PlayerList: React.FC = () => {
   const [players, setPlayers] = useState<any[]>([]);
@@ -10,69 +17,55 @@ const PlayerList: React.FC = () => {
   const { user } = useAuth();
 
   const fetchPlayerList = async () => {
-    try {
-      setPage((prevPage) => prevPage + 1);
-      const response = await fetch(
-        `https://www.balldontlie.io/api/v1/players?per_page=10&page=${page}`
-      );
-      const data = await response.json();
-      const fetchedPlayers = data.data;
-      const totalCount = data?.meta?.total_count;
-      const currentPlayers = [...players, ...fetchedPlayers].length;
-      console.log("data: ", data);
-      setPlayers((prevPlayers) => [...prevPlayers, ...fetchedPlayers]);
+    setPage(page + 1);
+    const response = await fetch(
+      `https://www.balldontlie.io/api/v1/players?per_page=10&page=${page}`
+    );
+    const data = await response.json();
+    const fetchedPlayers = data.data;
+    setPlayers((prevPlayers) => [...prevPlayers, ...fetchedPlayers]);
+   
 
-      if (totalCount > currentPlayers) {
-        setHasMore(true);
-      } else {
-        setHasMore(false);
-      }
-    } catch (error) {
+    const totalCount = data?.meta?.total_count;
+    const currentPlayers = [...players, ...fetchedPlayers].length;
+
+    if (totalCount > currentPlayers) {
+      setHasMore(true);
+    } else {
       setHasMore(false);
-      console.error("Error fetching player list:", error);
     }
   };
 
   useEffect(() => {
-    fetchPlayerList();
+    fetchPlayerList().catch((err) => console.error(err));
   }, []);
 
   const renderPlayers = () => {
-    return (
-      user && (
-        <div className={styles.playerList}>
-          {players.map((player: any, index) => (
-            <div key={index} className={styles.playerCard}>
-              <div className={styles.playerName}>
-                No.{index + 1} {player.first_name} {player.last_name}
-              </div>
-              {/* <div className={styles.playerInfo}>
-                          <div>Team: {player.team.full_name}</div>
-                          <div>Position: {player.position}</div>
-                        </div> */}
-            </div>
-          ))}
-        </div>
-      )
-    );
+    return players.map((player: any, index) => (
+      <div key={index} style={style}>
+        No.{index + 1} {player.first_name} {player.last_name}
+      </div>
+    ));
   };
 
   return (
     <>
-   { user && (
-      <div>
-        <h1>Player List</h1>
-        <InfiniteScroll
-          dataLength={players.length}
-          next={fetchPlayerList}
-          hasMore={hasMore}
-          loader={<h4>Loading...</h4>}
-          endMessage={<p>No more players</p>}
-        >
-          {renderPlayers()}
-        </InfiniteScroll>
-      </div>
-    )}
+      {user && (
+        <div>
+          <h1>Player List</h1>
+          <InfiniteScroll
+            dataLength={players.length}
+            next={fetchPlayerList}
+            height={400}
+            hasMore={hasMore}
+            scrollThreshold={1}
+            loader={<h4>Loading...</h4>}
+            endMessage={<p>No more players</p>}
+          >
+            {renderPlayers()}
+          </InfiniteScroll>
+        </div>
+      )}
     </>
   );
 };
